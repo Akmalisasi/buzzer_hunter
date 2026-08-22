@@ -1,5 +1,11 @@
 Buzzer Documentation App
 
+
+
+<img width="1895" height="591" alt="image" src="https://github.com/user-attachments/assets/30d49ef3-e1c1-421d-924f-08d2e96dacd5" />
+
+
+
 Aplikasi web sederhana berbasis PHP native untuk mendokumentasikan aktivitas akun buzzer di media sosial. Setiap pengguna bisa membuat laporan dokumentasi lengkap dengan bukti screenshot, dan semua laporan dari seluruh pengguna bisa dilihat bersama lewat dashboard.
 
 ---
