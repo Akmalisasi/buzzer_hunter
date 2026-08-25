@@ -12,6 +12,8 @@ Aplikasi web sederhana berbasis PHP native untuk mendokumentasikan aktivitas aku
 
 ## Fitur
 
+<img width="1892" height="411" alt="image" src="https://github.com/user-attachments/assets/a97e7dca-2d0d-4913-88c8-e2851a92d499" />
+
 ### Autentikasi
 - Login & Sign Up (role otomatis `user` saat daftar)
 - Logout
@@ -23,6 +25,8 @@ Aplikasi web sederhana berbasis PHP native untuk mendokumentasikan aktivitas aku
 - **Update**: edit laporan milik sendiri (atau semua laporan kalau login sebagai admin), termasuk menambah/menghapus screenshot satu per satu
 - **Delete**: hapus laporan beserta seluruh file screenshot terkait
 
+<img width="1893" height="793" alt="image" src="https://github.com/user-attachments/assets/f0782750-2b99-4f30-af7f-3da10dc1b755" />
+
 ### Dashboard
 - Tabel semua laporan, urut dari yang terbaru
 - Search berdasarkan judul / nama akun buzzer
@@ -30,9 +34,14 @@ Aplikasi web sederhana berbasis PHP native untuk mendokumentasikan aktivitas aku
 - Pagination (default 10 laporan per halaman, bisa diubah di `dashboard.php`)
 - Thumbnail screenshot bisa **diklik untuk membuka pop-up full image**
 
+
+<img width="1876" height="796" alt="image" src="https://github.com/user-attachments/assets/c673d6b1-76ee-423b-8f00-623087e11eee" />
+
 ### Profile
 - Lihat & update data akun (username, email)
 - Lihat daftar laporan yang pernah dibuat sendiri, dengan opsi edit/hapus langsung dari situ
+
+<img width="1899" height="438" alt="image" src="https://github.com/user-attachments/assets/8f9e15bc-a9e6-4666-9d2c-cc8ac3891afb" />
 
 ### Admin Panel
 - CRUD data user (tambah, edit, hapus)
