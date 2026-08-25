@@ -1,14 +1,12 @@
 ### Buzzer Documentation App
 
-<img width="1895" height="591" alt="image" src="https://github.com/user-attachments/assets/30d49ef3-e1c1-421d-924f-08d2e96dacd5" />
-
 Aplikasi web sederhana berbasis PHP native untuk mendokumentasikan aktivitas akun buzzer di media sosial. Setiap pengguna bisa membuat laporan dokumentasi lengkap dengan bukti screenshot, dan semua laporan dari seluruh pengguna bisa dilihat bersama lewat dashboard.
 
 ---
 
 ## Fitur
 
-<img width="1892" height="411" alt="image" src="https://github.com/user-attachments/assets/a97e7dca-2d0d-4913-88c8-e2851a92d499" />
+<img width="1847" height="517" alt="image" src="https://github.com/user-attachments/assets/cb752908-31d9-4cc8-b33d-1564bba49134" />
 
 ### Autentikasi
 - Login & Sign Up (role otomatis `user` saat daftar)
@@ -21,7 +19,7 @@ Aplikasi web sederhana berbasis PHP native untuk mendokumentasikan aktivitas aku
 - **Update**: edit laporan milik sendiri (atau semua laporan kalau login sebagai admin), termasuk menambah/menghapus screenshot satu per satu
 - **Delete**: hapus laporan beserta seluruh file screenshot terkait
 
-<img width="1893" height="793" alt="image" src="https://github.com/user-attachments/assets/f0782750-2b99-4f30-af7f-3da10dc1b755" />
+<img width="1884" height="854" alt="image" src="https://github.com/user-attachments/assets/9e02c370-1634-4bdd-a29f-c4cf6adfd2fd" />
 
 ### Dashboard
 - Tampilan **card** untuk setiap laporan (bukan tabel) — menampilkan avatar & tag platform sosmed, judul, nama akun buzzer, dan tanggal
@@ -32,13 +30,14 @@ Aplikasi web sederhana berbasis PHP native untuk mendokumentasikan aktivitas aku
 - Pagination (default **5 laporan per halaman**, bisa diubah lewat variabel `$limit` di `dashboard.php`)
 - Klik card untuk membuka detail laporan lengkap beserta screenshot
 
-<img width="1876" height="796" alt="image" src="https://github.com/user-attachments/assets/c673d6b1-76ee-423b-8f00-623087e11eee" />
+<img width="1856" height="850" alt="image" src="https://github.com/user-attachments/assets/65f2c965-9898-42f6-8ba1-eb7f484780ad" />
 
 ### Profile
 - Lihat & update data akun (username, email)
 - Lihat daftar laporan yang pernah dibuat sendiri, dengan opsi edit/hapus langsung dari situ
 
-<img width="1899" height="438" alt="image" src="https://github.com/user-attachments/assets/8f9e15bc-a9e6-4666-9d2c-cc8ac3891afb" />
+<img width="1887" height="635" alt="image" src="https://github.com/user-attachments/assets/9375d3ba-95a8-456c-b66b-c67a9fa62d9d" />
+
 
 ### Admin Panel
 - CRUD data user (tambah, edit, hapus)
