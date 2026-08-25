@@ -15,8 +15,12 @@ CREATE TABLE users (
     email VARCHAR(100) NOT NULL,
     password VARCHAR(255) NOT NULL,
     role ENUM('admin', 'user') NOT NULL DEFAULT 'user',
+    avatar VARCHAR(255) DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Untuk database yang sudah ada, jalankan ini:
+-- ALTER TABLE users ADD COLUMN avatar VARCHAR(255) DEFAULT NULL AFTER role;
 
 -- ================================
 -- TABEL REPORTS (dokumentasi buzzer)

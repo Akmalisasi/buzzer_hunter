@@ -1,6 +1,6 @@
 <?php
 require 'config.php';
-requireLogin();
+// Dashboard bisa dilihat tanpa login (publik). Untuk menambah dokumentasi wajib login.
 
 // ---- Filter & Search ----
 $search = isset($_GET['search']) ? $_GET['search'] : '';
@@ -16,7 +16,7 @@ if ($sosmed_filter !== '') {
 $whereSql = count($where) > 0 ? "WHERE " . implode(" AND ", $where) : "";
 
 // ---- Pagination ----
-$limit = 3;
+$limit = 5;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 if ($page < 1) $page = 1;
 $offset = ($page - 1) * $limit;
@@ -33,6 +33,18 @@ $query = "SELECT r.*, u.username
           ORDER BY r.created_at DESC
           LIMIT $limit OFFSET $offset";
 $result = mysqli_query($conn, $query);
+
+// Helper: slug + inisial buat tag warna platform (tanpa pakai logo asli)
+function sosmedMeta($s) {
+    $map = [
+        'Twitter/X'  => ['slug' => 'twitter',   'initial' => 'X'],
+        'Facebook'   => ['slug' => 'facebook',  'initial' => 'F'],
+        'Instagram'  => ['slug' => 'instagram', 'initial' => 'IG'],
+        'TikTok'     => ['slug' => 'tiktok',    'initial' => 'TT'],
+        'YouTube'    => ['slug' => 'youtube',   'initial' => 'YT'],
+    ];
+    return isset($map[$s]) ? $map[$s] : ['slug' => 'other', 'initial' => '•'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -51,7 +63,11 @@ $result = mysqli_query($conn, $query);
         <div class="alert alert-success"><?php echo htmlspecialchars($_GET['msg']); ?></div>
     <?php endif; ?>
 
-    <a href="report_create.php" class="btn">+ Buat Dokumentasi Baru</a>
+    <?php if (isLoggedIn()): ?>
+        <a href="report_create.php" class="btn">+ Buat Dokumentasi Baru</a>
+    <?php else: ?>
+        <a href="report_create.php" class="btn">+ Buat Dokumentasi Baru</a>
+    <?php endif; ?>
 
     <form method="GET" action="dashboard.php" class="filter-bar" style="margin-top:20px;">
         <input type="text" name="search" placeholder="Cari judul / nama akun buzzer" value="<?php echo htmlspecialchars($search); ?>">
@@ -69,45 +85,25 @@ $result = mysqli_query($conn, $query);
         <a href="dashboard.php" class="btn btn-secondary">Reset</a>
     </form>
 
-    <table>
-        <tr>
-            <th>Judul</th>
-            <th>Sosmed</th>
-            <th>Akun Buzzer</th>
-            <th>Tanggal</th>
-            <th>Dilaporkan Oleh</th>
-            <th>Screenshot</th>
-            <th>Aksi</th>
-        </tr>
-        <?php if (mysqli_num_rows($result) > 0): ?>
+    <!-- Kartu laporan -->
+    <?php if (mysqli_num_rows($result) > 0): ?>
+        <div class="report-card-grid">
             <?php while ($row = mysqli_fetch_assoc($result)): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($row['judul']); ?></td>
-                    <td><?php echo htmlspecialchars($row['sosmed']); ?></td>
-                    <td><?php echo htmlspecialchars($row['nama_akun_buzzer']); ?></td>
-                    <td><?php echo htmlspecialchars($row['tanggal']); ?></td>
-                    <td><?php echo htmlspecialchars($row['username']); ?></td>
-                    <td>
-                        <?php
-                        $shotQuery = mysqli_query($conn, "SELECT * FROM report_screenshots WHERE report_id = " . $row['id'] . " LIMIT 3");
-                        while ($shot = mysqli_fetch_assoc($shotQuery)) {
-                            $imgPath = 'uploads/' . htmlspecialchars($shot['file_path']);
-                            echo '<img src="' . $imgPath . '" class="screenshot-thumb" onclick="openImageModal(\'' . $imgPath . '\')" style="cursor:pointer;">';
-                        }
-                        ?>
-                    </td>
-                    <td>
-                        <?php if ($row['user_id'] == $_SESSION['user_id'] || isAdmin()): ?>
-                            <a href="report_edit.php?id=<?php echo $row['id']; ?>" class="btn btn-sm">Edit</a>
-                            <a href="report_delete.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Yakin hapus laporan ini?')">Hapus</a>
-                        <?php endif; ?>
-                    </td>
-                </tr>
+                <?php $meta = sosmedMeta($row['sosmed']); ?>
+                <a href="report_detail.php?id=<?php echo $row['id']; ?>" class="report-card sm-<?php echo $meta['slug']; ?>">
+                    <div class="report-card-head">
+                        <span class="sm-avatar"><?php echo $meta['initial']; ?></span>
+                        <span class="sm-tag"><?php echo htmlspecialchars($row['sosmed']); ?></span>
+                    </div>
+                    <div class="report-card-title"><?php echo htmlspecialchars($row['judul']); ?></div>
+                    <div class="report-card-account">@<?php echo htmlspecialchars($row['nama_akun_buzzer']); ?></div>
+                    <div class="report-card-time"><?php echo date('d M Y', strtotime($row['tanggal'])); ?></div>
+                </a>
             <?php endwhile; ?>
-        <?php else: ?>
-            <tr><td colspan="7">Belum ada laporan.</td></tr>
-        <?php endif; ?>
-    </table>
+        </div>
+    <?php else: ?>
+        <p style="margin-top:20px;">Belum ada laporan.</p>
+    <?php endif; ?>
 
     <div class="pagination">
         <?php for ($i = 1; $i <= $totalPages; $i++): ?>
@@ -116,22 +112,5 @@ $result = mysqli_query($conn, $query);
         <?php endfor; ?>
     </div>
 </div>
-
-<!-- Modal untuk lihat gambar full -->
-<div id="imageModal" onclick="closeImageModal()" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:999; cursor:zoom-out; justify-content:center; align-items:center;">
-    <span onclick="closeImageModal()" style="position:absolute; top:20px; right:35px; color:#fff; font-size:35px; font-weight:bold; cursor:pointer;">&times;</span>
-    <img id="modalImage" src="" style="max-width:90%; max-height:90%; border-radius:6px; box-shadow:0 0 20px rgba(0,0,0,0.5);">
-</div>
-
-<script>
-function openImageModal(src) {
-    document.getElementById('modalImage').src = src;
-    document.getElementById('imageModal').style.display = 'flex';
-}
-function closeImageModal() {
-    document.getElementById('imageModal').style.display = 'none';
-    document.getElementById('modalImage').src = '';
-}
-</script>
 </body>
 </html>

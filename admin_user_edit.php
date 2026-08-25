@@ -60,10 +60,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" required>
         </div>
         <div class="form-group">
-            <label>Password Baru (kosongkan jika tidak diubah)</label>
-            <input type="password" name="password">
-        </div>
-        <div class="form-group">
             <label>Role</label>
             <select name="role" required>
                 <option value="user" <?php echo $user['role'] === 'user' ? 'selected' : ''; ?>>User</option>

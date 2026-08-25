@@ -18,13 +18,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (mysqli_query($conn, $query)) {
         $report_id = mysqli_insert_id($conn);
 
-        // ---- Upload multiple screenshot (maks 5) ----
+        // ---- Screenshot: upload file dan/atau import via URL (gabungan maks 5) ----
+        $maxFiles = 5;
+        $uploadedCount = 0;
+
+        // a. Upload dari komputer
         if (isset($_FILES['screenshots'])) {
             $totalFiles = count($_FILES['screenshots']['name']);
             $allowedExt = ['jpg', 'jpeg', 'png'];
-            $maxFiles = 5;
 
-            for ($i = 0; $i < $totalFiles && $i < $maxFiles; $i++) {
+            for ($i = 0; $i < $totalFiles && $uploadedCount < $maxFiles; $i++) {
                 if ($_FILES['screenshots']['error'][$i] === 0) {
                     $fileName = $_FILES['screenshots']['name'][$i];
                     $tmpName = $_FILES['screenshots']['tmp_name'][$i];
@@ -36,7 +39,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         move_uploaded_file($tmpName, $destination);
 
                         mysqli_query($conn, "INSERT INTO report_screenshots (report_id, file_path) VALUES ('$report_id', '$newFileName')");
+                        $uploadedCount++;
                     }
+                }
+            }
+        }
+
+        // b. Import via URL (satu URL per baris)
+        if (!empty($_POST['screenshot_urls'])) {
+            $urls = array_filter(array_map('trim', explode("\n", $_POST['screenshot_urls'])));
+
+            foreach ($urls as $url) {
+                if ($uploadedCount >= $maxFiles) break;
+
+                $newFileName = downloadFromUrl($url, 'shot_');
+
+                if ($newFileName !== false) {
+                    mysqli_query($conn, "INSERT INTO report_screenshots (report_id, file_path) VALUES ('$report_id', '$newFileName')");
+                    $uploadedCount++;
                 }
             }
         }
@@ -103,6 +123,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label>Screenshot (bisa pilih lebih dari 1, maks 5, format jpg/jpeg/png)</label>
             <input type="file" name="screenshots[]" id="screenshotInput" multiple accept=".jpg,.jpeg,.png">
             <div id="previewContainer" style="margin-top:10px; display:flex; flex-wrap:wrap; gap:8px;"></div>
+        </div>
+
+        <div class="form-group">
+            <label>atau Import Screenshot via URL (satu URL per baris, maks 5 gabungan, format jpg/jpeg/png/webp, boleh link gambar tanpa ekstensi)</label>
+            <textarea name="screenshot_urls" placeholder="https://contoh.com/gambar1.jpg&#10;https://encrypted-tbn0.gstatic.com/images?q=tbn:..."></textarea>
         </div>
 
         <button type="submit" class="btn">Simpan Laporan</button>

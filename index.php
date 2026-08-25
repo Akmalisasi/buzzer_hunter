@@ -1,10 +1,7 @@
 <?php
 require 'config.php';
 
-if (isLoggedIn()) {
-    header("Location: dashboard.php");
-} else {
-    header("Location: login.php");
-}
+// Halaman awal langsung masuk dashboard (bisa dilihat tanpa login)
+header("Location: dashboard.php");
 exit;
 ?>
