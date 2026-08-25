@@ -57,7 +57,7 @@ Aplikasi web sederhana berbasis PHP native untuk mendokumentasikan aktivitas aku
 |---|---|---|
 | Login / Sign Up | ✅ | ✅ |
 | Lihat dashboard (semua laporan) | ✅ | ✅ |
-| Buat laporan baru | ✅ | ❌ (admin tidak membuat laporan) |
+| Buat laporan baru | ✅ | ✅ (admin tidak membuat laporan) |
 | Edit/Hapus laporan milik sendiri | ✅ | ✅ |
 | Edit/Hapus laporan milik user lain | ❌ | ✅ |
 | Update profil & ganti password sendiri | ✅ | ✅ |
