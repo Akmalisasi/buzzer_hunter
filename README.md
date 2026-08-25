@@ -1,10 +1,6 @@
 ### Buzzer Documentation App
 
-
-
 <img width="1895" height="591" alt="image" src="https://github.com/user-attachments/assets/30d49ef3-e1c1-421d-924f-08d2e96dacd5" />
-
-
 
 Aplikasi web sederhana berbasis PHP native untuk mendokumentasikan aktivitas akun buzzer di media sosial. Setiap pengguna bisa membuat laporan dokumentasi lengkap dengan bukti screenshot, dan semua laporan dari seluruh pengguna bisa dilihat bersama lewat dashboard.
 
@@ -28,12 +24,13 @@ Aplikasi web sederhana berbasis PHP native untuk mendokumentasikan aktivitas aku
 <img width="1893" height="793" alt="image" src="https://github.com/user-attachments/assets/f0782750-2b99-4f30-af7f-3da10dc1b755" />
 
 ### Dashboard
-- Tabel semua laporan, urut dari yang terbaru
+- Tampilan **card** untuk setiap laporan (bukan tabel) — menampilkan avatar & tag platform sosmed, judul, nama akun buzzer, dan tanggal
+- Aksen warna berbeda otomatis per platform (Twitter/X, Facebook, Instagram, TikTok, YouTube, lainnya)
 - Search berdasarkan judul / nama akun buzzer
 - Filter berdasarkan platform sosmed
-- Pagination (default 10 laporan per halaman, bisa diubah di `dashboard.php`)
-- Thumbnail screenshot bisa **diklik untuk membuka pop-up full image**
-
+- Diurutkan dari laporan terbaru
+- Pagination (default **5 laporan per halaman**, bisa diubah lewat variabel `$limit` di `dashboard.php`)
+- Klik card untuk membuka detail laporan lengkap beserta screenshot
 
 <img width="1876" height="796" alt="image" src="https://github.com/user-attachments/assets/c673d6b1-76ee-423b-8f00-623087e11eee" />
 
@@ -76,6 +73,9 @@ Aplikasi web sederhana berbasis PHP native untuk mendokumentasikan aktivitas aku
 | Interaktivitas | Vanilla JavaScript (live preview upload, modal gambar) |
 | Server lokal | Kompatibel dengan XAMPP / Laragon / Apache + PHP + MySQL manapun |
 
+---
+
+## Rencana Pengembangan
 - Export laporan ke PDF/Excel
 - Kategori/jenis pelanggaran buzzer
 - Status laporan (pending, verified, ditolak)
